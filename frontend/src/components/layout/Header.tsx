@@ -1,8 +1,9 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { Bell, Search, Plus, X } from 'lucide-react';
+import { Bell, Search, Plus, X, Menu } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useLayoutStore } from '@/store/useLayoutStore';
 
 const pageTitles: Record<string, string> = {
   '/app/dashboard':    'Dashboard',
@@ -22,6 +23,7 @@ export function Header() {
   const [searchResults, setSearchResults] = useState<{ customers: any[], campaigns: any[], segments: any[] } | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
+  const toggleSidebar = useLayoutStore(state => state.toggleSidebar);
 
   // Debounced search
   useEffect(() => {
@@ -45,10 +47,18 @@ export function Header() {
   }, [searchQuery]);
 
   return (
-    <header className="fixed top-0 left-60 right-0 h-16 bg-bg-sidebar/80 backdrop-blur-md border-b border-border z-20 flex items-center px-6 gap-4">
-      {/* Title */}
+    <header className="fixed top-0 left-0 md:left-60 right-0 h-16 bg-bg-sidebar/80 backdrop-blur-md border-b border-border z-20 flex items-center px-4 md:px-6 gap-4">
+      {/* Hamburger Menu & Title */}
       {!searchOpen && (
-        <h1 className="text-base font-semibold text-text-primary flex-1">{title}</h1>
+        <div className="flex items-center gap-3 flex-1">
+          <button 
+            onClick={toggleSidebar}
+            className="md:hidden p-2 -ml-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/[0.06] transition-all"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <h1 className="text-base font-semibold text-text-primary">{title}</h1>
+        </div>
       )}
 
       {/* Inline Search */}

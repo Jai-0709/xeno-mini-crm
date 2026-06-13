@@ -140,7 +140,7 @@ export function CustomerTable({ onSelect }: CustomerTableProps) {
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border overflow-hidden" style={{ borderColor: '#1f1f1f' }}>
+      <div className="rounded-xl border overflow-x-auto" style={{ borderColor: '#1f1f1f' }}>
         <table className="w-full text-sm">
           <thead>
             <tr style={{ background: '#111111', borderBottom: '1px solid #1f1f1f' }}>

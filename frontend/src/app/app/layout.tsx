@@ -7,8 +7,8 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-bg">
       <Sidebar />
       <Header />
-      <main className="ml-60 pt-16 min-h-screen">
-        <div className="p-6">{children}</div>
+      <main className="md:ml-60 pt-16 min-h-screen">
+        <div className="p-4 md:p-6">{children}</div>
       </main>
       <ToastContainer />
     </div>
