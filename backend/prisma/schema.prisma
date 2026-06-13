@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id              String   @id @default(cuid())
+  name            String
+  email           String   @unique
+  phone           String
+  city            String
+  avatarColor     String
+  totalOrders     Int      @default(0)
+  totalSpend      Float    @default(0)
+  avgOrderValue   Float    @default(0)
+  lastPurchaseDate DateTime?
+  tag             String   @default("Regular")
+  createdAt       DateTime @default(now())
+  orders          Order[]
+  communications  CommunicationLog[]
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
+  productName String
+  amount      Float
+  status      String   @default("completed")
+  createdAt   DateTime @default(now())
+}
+
+model Segment {
+  id            String   @id @default(cuid())
+  name          String
+  description   String
+  filters       String
+  customerCount Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  campaigns     Campaign[]
+}
+
+model Campaign {
+  id              String   @id @default(cuid())
+  name            String
+  channel         String
+  segmentId       String
+  segment         Segment  @relation(fields: [segmentId], references: [id])
+  message         String
+  status          String   @default("draft")
+  scheduledAt     DateTime?
+  launchedAt      DateTime?
+  completedAt     DateTime?
+  totalRecipients Int      @default(0)
+  sent            Int      @default(0)
+  delivered       Int      @default(0)
+  failed          Int      @default(0)
+  opened          Int      @default(0)
+  clicked         Int      @default(0)
+  createdAt       DateTime @default(now())
+  logs            CommunicationLog[]
+}
+
+model CommunicationLog {
+  id          String   @id @default(cuid())
+  campaignId  String
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
+  channel     String
+  message     String
+  status      String   @default("queued")
+  sentAt      DateTime?
+  deliveredAt DateTime?
+  openedAt    DateTime?
+  clickedAt   DateTime?
+  createdAt   DateTime @default(now())
+}

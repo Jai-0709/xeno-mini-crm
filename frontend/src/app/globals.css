@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), "Plus Jakarta Sans", sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+
+  --color-bg: #0d0d0d;
+  --color-bg-card: #161616;
+  --color-bg-sidebar: #111111;
+  --color-bg-active: #1a1a2e;
+  --color-border: #1f1f1f;
+  --color-border-hover: #2a2a2a;
+  --color-accent-blue: #4f6ef7;
+  --color-accent-purple: #7c5cbf;
+  --color-text-primary: #f0f0f0;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #3f3f46;
+  --color-status-success: #22c55e;
+  --color-status-warning: #f59e0b;
+  --color-status-danger: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: #0d0d0d;
+  color: #f0f0f0;
+  font-family: var(--font-inter), 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111111;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #161616 25%, #1f1f1f 50%, #161616 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Pulse dot for AI nav item */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #4f6ef7, #7c5cbf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient border */
+.gradient-border {
+  position: relative;
+  border-radius: 12px;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, #4f6ef7, #7c5cbf);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Status badge pulse animation */
+@keyframes status-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 110, 247, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(79, 110, 247, 0); }
+}
+
+.badge-running {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+/* Slide-in from right */
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.animate-slide-in-right {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Slide-in from top */
+@keyframes slideInTop {
+  from { transform: translateY(-12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-in-top {
+  animation: slideInTop 0.3s ease;
+}
+
+/* Scale on click */
+.click-scale {
+  transition: transform 150ms ease;
+}
+.click-scale:active {
+  transform: scale(0.97);
+}
+
+/* Hover lift */
+.hover-lift {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* Gradient button */
+.btn-gradient {
+  background: linear-gradient(135deg, #4f6ef7, #7c5cbf);
+  border-radius: 8px;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+.btn-gradient:hover {
+  opacity: 0.9;
+}
+.btn-gradient:active {
+  transform: scale(0.97);
+}
+
+/* Table row hover */
+.table-row-hover:hover {
+  background-color: rgba(255,255,255,0.02);
+}
+
+/* Fade in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.4s ease;
+}
+
+/* Toast slide-in */
+@keyframes toastIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes toastOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(120%); opacity: 0; }
+}
+.toast-enter {
+  animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast-exit {
+  animation: toastOut 0.3s ease;
+}
