@@ -36,14 +36,14 @@ export function NewCampaignFlow({ open, onClose, onCreated }: NewCampaignFlowPro
 
   useEffect(() => {
     if (open) {
-      fetch('http://localhost:5000/api/segments').then(r => r.json()).then(setSegments);
+      fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/segments').then(r => r.json()).then(setSegments);
     }
   }, [open]);
 
   async function generateMessage() {
     setAiLoading(true);
     const seg = segments.find(s => s.id === segmentId);
-    const res = await fetch('http://localhost:5000/api/ai/message', {
+    const res = await fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/ai/message', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -60,7 +60,7 @@ export function NewCampaignFlow({ open, onClose, onCreated }: NewCampaignFlowPro
 
   async function save() {
     setSaving(true);
-    const res = await fetch('http://localhost:5000/api/campaigns', {
+    const res = await fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/campaigns', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -27,7 +27,7 @@ export default function DashboardPage() {
   const fetchStats = useCallback(async (showRefreshing = false) => {
     if (showRefreshing) setRefreshing(true);
     try {
-      const res = await fetch('http://localhost:5000/api/dashboard/stats');
+      const res = await fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/dashboard/stats');
       const data = await res.json();
       setStats(data);
     } catch {

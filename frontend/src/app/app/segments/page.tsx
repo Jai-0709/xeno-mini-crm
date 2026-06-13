@@ -23,7 +23,7 @@ export default function SegmentsPage() {
 
   const fetchSegments = useCallback(async () => {
     setLoading(true);
-    const res = await fetch('http://localhost:5000/api/segments');
+    const res = await fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/segments');
     const data = await res.json();
     setSegments(data);
     setLoading(false);
@@ -32,7 +32,7 @@ export default function SegmentsPage() {
   useEffect(() => { fetchSegments(); }, [fetchSegments]);
 
   async function handleDelete(id: string) {
-    const res = await fetch(`http://localhost:5000/api/segments/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/segments/${id}`, { method: 'DELETE' });
     if (res.ok) {
       addToast({ type: 'success', title: 'Segment deleted' });
       if (selected?.id === id) setSelected(null);

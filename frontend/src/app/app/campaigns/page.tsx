@@ -35,7 +35,7 @@ export default function CampaignsPage() {
 
   const fetchCampaigns = useCallback(async () => {
     setLoading(true);
-    const res = await fetch('http://localhost:5000/api/campaigns');
+    const res = await fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/campaigns');
     const data = await res.json();
     setCampaigns(data);
     setLoading(false);
@@ -44,7 +44,7 @@ export default function CampaignsPage() {
   useEffect(() => { fetchCampaigns(); }, [fetchCampaigns]);
 
   async function handleLaunch(id: string) {
-    const res = await fetch(`http://localhost:5000/api/campaigns/${id}/launch`, { method: 'POST' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/campaigns/${id}/launch`, { method: 'POST' });
     if (res.ok) {
       addToast({ type: 'success', title: 'Campaign launched!', message: 'Messages are being sent to your audience' });
       setMonitorId(id);

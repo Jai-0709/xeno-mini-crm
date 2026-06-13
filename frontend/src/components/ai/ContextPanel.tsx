@@ -26,8 +26,8 @@ export function ContextPanel({ onQuickAction }: ContextPanelProps) {
   useEffect(() => {
     // Fetch live stats
     Promise.all([
-      fetch('http://localhost:5000/api/customers').then(r => r.json()),
-      fetch('http://localhost:5000/api/campaigns').then(r => r.json()),
+      fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/customers').then(r => r.json()),
+      fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/campaigns').then(r => r.json()),
     ]).then(([customers, campaigns]) => {
       const openRates = campaigns.filter((c: any) => c.delivered > 0)
         .map((c: any) => c.opened / c.delivered * 100);

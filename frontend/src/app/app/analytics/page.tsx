@@ -27,7 +27,7 @@ export default function AnalyticsPage() {
 
   const fetchCampaigns = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/campaigns');
+      const res = await fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/campaigns');
       const data = await res.json();
       setCampaigns(data);
     } catch {

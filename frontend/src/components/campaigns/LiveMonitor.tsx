@@ -49,7 +49,7 @@ export function LiveMonitor({ campaignId, onClose }: LiveMonitorProps) {
 
   useEffect(() => {
     const poll = async () => {
-      const res = await fetch(`http://localhost:5000/api/campaigns/${campaignId}/stats`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/campaigns/${campaignId}/stats`);
       const d = await res.json();
       setStats(d);
     };

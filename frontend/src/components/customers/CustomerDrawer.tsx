@@ -53,7 +53,7 @@ export function CustomerDrawer({ customer, onClose }: CustomerDrawerProps) {
     setTab('Overview');
     setDetail(null);
     setLoading(true);
-    fetch(`http://localhost:5000/api/customers/${customer.id}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/customers/${customer.id}`)
       .then(r => r.json())
       .then(d => { setDetail(d); setLoading(false); });
   }, [customer]);

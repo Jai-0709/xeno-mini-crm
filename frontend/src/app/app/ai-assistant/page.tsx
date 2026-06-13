@@ -51,7 +51,7 @@ export default function AIAssistantPage() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/ai/chat', {
+      const res = await fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: trimmed, history: messages }),

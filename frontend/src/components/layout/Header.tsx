@@ -34,7 +34,7 @@ export function Header() {
     const timer = setTimeout(async () => {
       setIsSearching(true);
       try {
-        const res = await fetch(`http://localhost:5000/api/search?q=${encodeURIComponent(searchQuery)}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/search?q=${encodeURIComponent(searchQuery)}`);
         const data = await res.json();
         setSearchResults(data);
       } catch {

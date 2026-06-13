@@ -51,7 +51,7 @@ export function CustomerTable({ onSelect }: CustomerTableProps) {
     const params = new URLSearchParams();
     if (search) params.set('search', search);
     if (tagFilter) params.set('tag', tagFilter);
-    const res = await fetch(`http://localhost:5000/api/customers?${params}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/customers?${params}`);
     const data = await res.json();
     setCustomers(data);
     setLoading(false);

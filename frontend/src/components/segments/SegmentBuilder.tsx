@@ -58,7 +58,7 @@ export function SegmentBuilder({ onSaved }: SegmentBuilderProps) {
 
   async function previewCount() {
     setPreviewing(true);
-    const res = await fetch('http://localhost:5000/api/segments', {
+    const res = await fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/segments', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: 'preview', description: '', filters: rules, preview: true }),
@@ -72,7 +72,7 @@ export function SegmentBuilder({ onSaved }: SegmentBuilderProps) {
     if (!name.trim()) { addToast({ type: 'error', title: 'Name required', message: 'Please enter a segment name' }); return; }
     if (rules.some(r => !r.value)) { addToast({ type: 'error', title: 'Incomplete rules', message: 'All filter rules must have a value' }); return; }
     setSaving(true);
-    const res = await fetch('http://localhost:5000/api/segments', {
+    const res = await fetch((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api/segments', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, description, filters: rules }),
