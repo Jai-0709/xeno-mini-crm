@@ -9,6 +9,11 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
 const app = express();
+
+// Health check endpoint for UptimeRobot
+app.get('/', (req, res) => {
+  res.status(200).send('Lumora CRM Backend is Awake!');
+});
 app.use(cors());
 app.use(express.json());
 
