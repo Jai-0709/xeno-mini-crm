@@ -165,7 +165,7 @@ export function Header() {
             title="Notifications"
           >
             <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-status-danger rounded-full" />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-status-danger rounded-full border-2 border-surface" />
           </button>
           {showNotif && (
             <div
@@ -191,13 +191,13 @@ export function Header() {
           )}
         </div>
 
-        {/* New Campaign */}
+        {/* <span className="hidden md:inline">New Campaign</span> */}
         <button
           onClick={() => router.push('/app/campaigns')}
           className="btn-gradient flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white"
         >
           <Plus className="w-4 h-4" />
-          New Campaign
+          <span className="hidden md:inline">New Campaign</span>
         </button>
       </div>
     </header>

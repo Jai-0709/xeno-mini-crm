@@ -88,12 +88,12 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Subheader */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold text-text-primary">Overview</h2>
           <p className="text-sm text-text-secondary mt-0.5">Your brand's marketing performance at a glance</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           {/* Date range */}
           <div className="flex gap-1 bg-bg-card border border-border rounded-lg p-1">
             {(['Today', '7D', '30D'] as const).map(r => (
@@ -153,18 +153,18 @@ export default function DashboardPage() {
       </div>
 
       {/* Row 1 — Metric cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {loading
           ? Array.from({ length: 4 }).map((_, i) => <MetricCardSkeleton key={i} />)
           : metrics.map((m) => <MetricCard key={m.title} {...m} />)}
       </div>
 
       {/* Row 2 — Chart + Top Campaigns */}
-      <div className="grid grid-cols-5 gap-4">
-        <div className="col-span-3">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        <div className="col-span-1 lg:col-span-3">
           <EngagementChart />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-1 lg:col-span-2">
           <TopCampaigns />
         </div>
       </div>
