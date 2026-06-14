@@ -75,7 +75,7 @@ export function SegmentCustomersDrawer({ segment, onClose }: Props) {
 
   return (
     <>
-      <Drawer open={!!segment} onClose={onClose} title={segment ? \`\${segment.name} Customers\` : 'Segment Customers'} width={480}>
+      <Drawer open={!!segment} onClose={onClose} title={segment ? `${segment.name} Customers` : 'Segment Customers'} width={480}>
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between p-4 rounded-xl border" style={{ background: '#111111', borderColor: '#1f1f1f' }}>
             <div className="flex items-center gap-3">
