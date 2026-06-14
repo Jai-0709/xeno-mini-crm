@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import Groq from 'groq-sdk';
+import { startOutboxWorker, startInboxWorker } from './workers';
 
 const prisma = new PrismaClient({ log: ['error'] });
 
@@ -390,18 +391,18 @@ app.post('/api/campaigns/:id/launch', async (req, res) => {
       }
     }
 
-    // 4. Return immediately — fire-and-forget the simulation
-    res.json({ ok: true, totalRecipients: customers.length });
+    // 4. Batch-create OutboxJobs to push sends to the queue
+    const outboxPayloads = logIds.map(logId => ({
+      logId,
+      campaignId: id,
+      payload: JSON.stringify({ logId, campaignId: id })
+    }));
+    
+    await prisma.outboxJob.createMany({
+      data: outboxPayloads
+    });
 
-    // 5. Trigger channel stub simulation async (staggered so SQLite isn't slammed)
-    const stagger = Math.min(50, 2000 / logIds.length); // max 2s ramp-up
-    for (let idx = 0; idx < logIds.length; idx++) {
-      const logId = logIds[idx];
-      setTimeout(() => {
-        simulateDelivery(logId, id).catch(console.error);
-      }, idx * stagger);
-    }
-
+    res.json({ success: true, count: logIds.length });
   } catch (err) {
     console.error('[launch]', err);
     res.status(500).json({ error: 'Failed to launch campaign' });
@@ -435,24 +436,14 @@ app.post('/api/webhooks/delivery', async (req, res) => {
     const newStatus = statusMap[outcome];
     if (!newStatus) return res.status(400).json({ error: 'Unknown outcome' });
 
-    const dateFields: Record<string, object> = {
-      sent:      { sentAt: new Date() },
-      delivered: { deliveredAt: new Date() },
-      opened:    { openedAt: new Date() },
-      clicked:   { clickedAt: new Date() },
-    };
-
-    await prisma.communicationLog.update({
-      where: { id: logId },
-      data: { status: newStatus, ...dateFields[outcome] },
+    // Create InboxJob for async processing via worker
+    await prisma.inboxJob.create({
+      data: {
+        payload: JSON.stringify({ logId, campaignId, outcome })
+      }
     });
 
-    await prisma.campaign.update({
-      where: { id: campaignId },
-      data: { [outcome]: { increment: 1 } },
-    });
-
-    res.json({ ok: true });
+    res.status(202).json({ success: true, message: 'Queued for processing' });
   } catch (err) {
     console.error('[webhook]', err);
     res.status(500).json({ error: 'Webhook processing failed' });
@@ -595,7 +586,9 @@ Respond ONLY with valid JSON: {"name": "Segment Name", "rules": [{"field": "..."
 
 const PORT = 5000;
 app.listen(PORT, () => {
-  console.log(`✅ Lumora CRM backend running on http://localhost:${PORT}`);
-  console.log(`   Channel stub loop: integrated`);
+  startOutboxWorker();
+  startInboxWorker();
+  console.log(`[CRM SERVICE] Running on http://localhost:${PORT}`);
+  console.log(`   Background queue workers: started`);
   console.log(`   AI: Groq llama-3.3-70b`);
 });

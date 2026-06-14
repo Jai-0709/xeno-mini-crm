@@ -1,36 +1,35 @@
 {
-    "name":  "backend",
-    "version":  "1.0.0",
-    "description":  "",
-    "main":  "index.js",
-    "scripts":  {
-                    "test":  "echo \"Error: no test specified\" \u0026\u0026 exit 1",
-                    "dev":  "ts-node src/index.ts",
-                    "start":  "ts-node src/index.ts",
-                    "build":  "echo \u0027Building...\u0027"
-                },
-    "keywords":  [
-
-                 ],
-    "author":  "",
-    "license":  "ISC",
-    "type":  "commonjs",
-    "dependencies":  {
-                         "@prisma/client":  "^5.22.0",
-                         "cors":  "^2.8.6",
-                         "dotenv":  "^17.4.2",
-                         "express":  "^5.2.1",
-                         "groq-sdk":  "^1.2.1"
-                     },
-    "devDependencies":  {
-                            "@types/cors":  "^2.8.19",
-                            "@types/express":  "^5.0.6",
-                            "@types/node":  "^25.9.3",
-                            "prisma":  "^5.22.0",
-                            "ts-node":  "^10.9.2",
-                            "typescript":  "^6.0.3"
-                        },
-    "prisma":  {
-                   "seed":  "ts-node prisma/seed.ts"
-               }
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "concurrently \"ts-node src/index.ts\" \"ts-node src/channel-service.ts\"",
+        "start": "concurrently \"ts-node src/index.ts\" \"ts-node src/channel-service.ts\"",
+        "build": "echo 'Building...'"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "dependencies": {
+        "@prisma/client": "^5.22.0",
+        "cors": "^2.8.6",
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "groq-sdk": "^1.2.1"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.6",
+        "@types/node": "^25.9.3",
+        "concurrently": "^10.0.3",
+        "prisma": "^5.22.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^6.0.3"
+    },
+    "prisma": {
+        "seed": "ts-node prisma/seed.ts"
+    }
 }

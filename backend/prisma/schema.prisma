@@ -81,3 +81,23 @@ model CommunicationLog {
   clickedAt   DateTime?
   createdAt   DateTime @default(now())
 }
+
+model OutboxJob {
+  id          String   @id @default(cuid())
+  logId       String
+  campaignId  String
+  payload     String
+  status      String   @default("pending") // pending, processing, failed, completed
+  attempts    Int      @default(0)
+  nextAttemptAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model InboxJob {
+  id          String   @id @default(cuid())
+  payload     String
+  status      String   @default("pending") // pending, processing, failed, completed
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
