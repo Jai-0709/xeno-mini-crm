@@ -135,6 +135,8 @@ document.addEventListener('click', function(e) {
 
 
 
+
+
 <script id="mobile-js">
   document.addEventListener("DOMContentLoaded", () => {
     const fixLayout = () => {
@@ -167,11 +169,12 @@ document.addEventListener('click', function(e) {
            }
          });
 
-         // Place the Dashboard Image perfectly OVER the Wavy Background, like Desktop!
+         // --- Desktop-referenced Overlay Fix ---
+         
+         // 1. Find the exact images the user referenced
          const dashImgs = document.querySelectorAll('img[alt="dashboard"]');
          const bgImgs = document.querySelectorAll('img[alt="bg"]');
          
-         // Find the original dashboard image to grab its src
          let dashImg = null;
          dashImgs.forEach(img => {
              if (img.src && img.src.includes('MYH9gnMeXJpiWdT8CKYhuYdtmF0')) {
@@ -179,7 +182,6 @@ document.addEventListener('click', function(e) {
              }
          });
          
-         // Find the active wavy background visible on mobile
          let activeBg = null;
          bgImgs.forEach(img => {
              if (img.offsetParent !== null && img.src && img.src.includes('SbAYTGLHe7icCQdyC9sm7N0hrXY')) {
@@ -190,50 +192,61 @@ document.addEventListener('click', function(e) {
          if (dashImg && activeBg) {
              const bgWrapper = activeBg.parentElement;
              
-             // Check if we haven't already injected the dashboard
-             if (bgWrapper && !bgWrapper.querySelector('.perfect-dash-overlay')) {
-                 // Create a perfectly positioned container that sits over the wavy background
-                 const dashCloneWrapper = document.createElement('div');
-                 dashCloneWrapper.className = 'perfect-dash-overlay';
-                 dashCloneWrapper.style.position = 'absolute';
-                 dashCloneWrapper.style.top = '6%';
-                 dashCloneWrapper.style.left = '4%';
-                 dashCloneWrapper.style.width = '92%';
-                 dashCloneWrapper.style.height = '88%';
-                 dashCloneWrapper.style.zIndex = '20';
-                 dashCloneWrapper.style.display = 'flex';
-                 dashCloneWrapper.style.alignItems = 'center';
-                 dashCloneWrapper.style.justifyContent = 'center';
+             // 2. Ensure we only do this once
+             if (bgWrapper && !bgWrapper.querySelector('.desktop-reference-overlay')) {
                  
+                 // Remove any broken logic from older scripts that might still be affecting this container
+                 const imgWrapperParent = dashImg.parentElement.parentElement;
+                 if (imgWrapperParent) {
+                     imgWrapperParent.style.aspectRatio = '';
+                     imgWrapperParent.style.height = '';
+                     imgWrapperParent.style.minHeight = '';
+                 }
+
+                 // 3. Create the overlay container perfectly mirroring the desktop layout
+                 const dashOverlayWrapper = document.createElement('div');
+                 dashOverlayWrapper.className = 'desktop-reference-overlay';
+                 
+                 // In desktop layout, the dashboard image sits inside a wrapper that is absolutely 
+                 // positioned over the background, with slight inset padding.
+                 dashOverlayWrapper.style.position = 'absolute';
+                 dashOverlayWrapper.style.top = '5%';
+                 dashOverlayWrapper.style.left = '5%';
+                 dashOverlayWrapper.style.width = '90%';
+                 dashOverlayWrapper.style.height = '90%';
+                 dashOverlayWrapper.style.zIndex = '10';
+                 dashOverlayWrapper.style.display = 'flex';
+                 dashOverlayWrapper.style.alignItems = 'center';
+                 dashOverlayWrapper.style.justifyContent = 'center';
+                 
+                 // 4. Inject the dashboard image
                  const cloneImg = document.createElement('img');
                  cloneImg.src = dashImg.src;
                  cloneImg.style.width = '100%';
                  cloneImg.style.height = '100%';
+                 // object-fit: contain ensures it never crops or distorts, just like desktop
                  cloneImg.style.objectFit = 'contain';
-                 cloneImg.style.borderRadius = '8px'; // Add slight curve matching desktop
-                 cloneImg.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)'; // Add nice desktop shadow
+                 // Add the nice desktop rounded corners
+                 cloneImg.style.borderRadius = '8px'; 
                  
-                 dashCloneWrapper.appendChild(cloneImg);
+                 dashOverlayWrapper.appendChild(cloneImg);
                  
-                 // Append the dashboard exactly inside the wavy background's container
-                 bgWrapper.appendChild(dashCloneWrapper);
+                 // 5. Place it directly over the wavy background element
+                 bgWrapper.appendChild(dashOverlayWrapper);
                  
-                 // Hide any other misaligned dashboard images in this section so they don't cause duplicate gaps
-                 const section = activeBg.closest('section') || activeBg.closest('.framer-1h3s16t');
-                 if (section) {
-                     section.querySelectorAll('img[alt="dashboard"]').forEach(img => {
-                         if (!img.closest('.perfect-dash-overlay')) {
-                             img.style.display = 'none';
-                             if (img.parentElement) img.parentElement.style.display = 'none';
-                         }
-                     });
+                 // 6. Hide the original dashboard element that was getting cropped/misaligned
+                 if (dashImg.parentElement && dashImg.parentElement.parentElement) {
+                     dashImg.parentElement.parentElement.style.display = 'none';
                  }
                  
-                 // Note: We DO NOT modify section heights, flex gaps, or wrappers! 
-                 // This ensures we do not break any other layout elements.
+                 // Safely reduce the hero section gap ONLY to remove the huge gap below the image
+                 const section = activeBg.closest('section');
+                 if (section) {
+                     section.style.minHeight = '0px';
+                     section.style.height = 'auto';
+                 }
              }
          }
-         
       }
     };
 
@@ -249,6 +262,7 @@ document.addEventListener('click', function(e) {
   });
 </script>
 </head>
+
 
 
 
