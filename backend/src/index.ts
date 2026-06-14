@@ -291,6 +291,16 @@ app.get('/api/campaigns/:id/stats', async (req, res) => {
   }
 });
 
+// DELETE /api/campaigns/:id — delete campaign
+app.delete('/api/campaigns/:id', async (req, res) => {
+  try {
+    await prisma.campaign.delete({ where: { id: req.params.id } });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete campaign' });
+  }
+});
+
 // ─── GLOBAL SEARCH ────────────────────────────────────────────────────────────
 app.get('/api/search', async (req, res) => {
   try {
