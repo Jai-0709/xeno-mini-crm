@@ -77,7 +77,7 @@ export default function AIAssistantPage() {
       <div className="flex-1 flex flex-col min-w-0">
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-8 py-6 flex flex-col gap-4">
+        <div className="flex-1 overflow-y-auto px-4 md:px-8 py-6 flex flex-col gap-4">
 
           {/* Empty state */}
           {messages.length === 0 && (
@@ -119,7 +119,7 @@ export default function AIAssistantPage() {
               </div>
 
               {/* Suggestion cards */}
-              <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-lg">
                 {SUGGESTIONS.map(({ icon: Icon, label, prompt }) => (
                   <button
                     key={label}
@@ -202,7 +202,7 @@ export default function AIAssistantPage() {
 
       {/* Context panel */}
       <div
-        className="w-72 border-l flex flex-col flex-shrink-0"
+        className="w-72 border-l flex-col flex-shrink-0 hidden lg:flex"
         style={{ borderColor: '#1a1a1a', background: '#0a0a0a' }}
       >
         {/* Panel header */}

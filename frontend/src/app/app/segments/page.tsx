@@ -54,7 +54,7 @@ export default function SegmentsPage() {
       </div>
 
       {/* Split layout */}
-      <div className="grid gap-6" style={{ gridTemplateColumns: '1fr 1fr' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Segment list */}
         <div className="flex flex-col gap-4">
           <h2 className="text-sm font-semibold" style={{ color: '#f0f0f0' }}>

@@ -128,40 +128,8 @@ document.addEventListener('click', function(e) {
 
 
 
-<style id="mobile-fixes">
-  /* Show only Home and Features in mobile nav */
-  .framer-13tu6ag > div:not(:has(a[href="/app/dashboard"])):not(:has(a[href="features.html"])) { 
-    display: none !important; 
-  }
-  
-  /* Fix dashboard images and remove gap */
-  @media (max-width: 768px) {
-    img {
-      object-fit: contain !important;
-      max-width: 100% !important;
-      height: auto !important;
-    }
-    [data-framer-background-image-wrapper="true"] {
-      background-size: contain !important;
-      background-position: center top !important;
-    }
-    
-    /* Target the hero image container which causes the gap */
-    /* Framer uses inline heights, so we force them to auto */
-    .framer-1qy1sfj, .framer-1h3s16t, .framer-169uuwn {
-      height: auto !important;
-      min-height: unset !important;
-      padding-bottom: 40px !important;
-    }
-    
-    /* Also target direct parents of the hero image */
-    .framer-1u6eaj6 {
-       height: auto !important; 
-       position: relative !important;
-    }
-  }
-</style>
-</head>
+
+<style id="mobile-fixes"> @media (max-width: 768px) { [data-framer-background-image-wrapper="true"]:not(:has(img[alt="logo"])) { background-size: contain !important; background-position: center top !important; } img:not([alt="logo"]) { object-fit: contain !important; height: auto !important; max-width: 100% !important; } } </style><script id="mobile-js"> document.addEventListener("DOMContentLoaded", () => { const observer = new MutationObserver(() => { if (window.innerWidth <= 768) { document.querySelectorAll("a").forEach(a => { const text = (a.textContent || "").trim(); if (text === "Company" || text === "Contact" || text === "Pricing" || text === "Sign Up") { a.style.display = "none"; if (a.parentElement && a.parentElement.tagName === "DIV" && a.parentElement.className.includes("framer-")) { a.parentElement.style.display = "none"; } } }); document.querySelectorAll("[data-framer-background-image-wrapper='true']").forEach(w => { if (w.querySelector("img[alt='logo']")) return; let el = w; for(let i=0; i<4; i++) { if(el) { el.style.height = "auto"; el.style.minHeight = "0"; el = el.parentElement; } } }); } }); observer.observe(document.body, { childList: true, subtree: true }); }); </script></head>
 
 
 <body>
