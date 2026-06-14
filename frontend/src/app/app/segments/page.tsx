@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { SegmentList } from '@/components/segments/SegmentList';
 import { SegmentBuilder } from '@/components/segments/SegmentBuilder';
+import { SegmentCustomersDrawer } from '@/components/segments/SegmentCustomersDrawer';
 import { Filter } from 'lucide-react';
 import { useToastStore } from '@/store/useToastStore';
 
@@ -75,6 +76,7 @@ export default function SegmentsPage() {
           <SegmentBuilder onSaved={fetchSegments} />
         </div>
       </div>
+      <SegmentCustomersDrawer segment={selected} onClose={() => setSelected(null)} />
     </div>
   );
 }

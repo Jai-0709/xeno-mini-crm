@@ -235,9 +235,15 @@ app.post('/api/segments', async (req, res) => {
 
 app.delete('/api/segments/:id', async (req, res) => {
   try {
+    const campaigns = await prisma.campaign.findMany({ where: { segmentId: req.params.id } });
+    for (const c of campaigns) {
+      await prisma.communicationLog.deleteMany({ where: { campaignId: c.id } });
+      await prisma.campaign.delete({ where: { id: c.id } });
+    }
     await prisma.segment.delete({ where: { id: req.params.id } });
     res.json({ success: true });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Failed to delete segment' });
   }
 });
@@ -294,6 +300,7 @@ app.get('/api/campaigns/:id/stats', async (req, res) => {
 // DELETE /api/campaigns/:id — delete campaign
 app.delete('/api/campaigns/:id', async (req, res) => {
   try {
+    await prisma.communicationLog.deleteMany({ where: { campaignId: req.params.id } });
     await prisma.campaign.delete({ where: { id: req.params.id } });
     res.json({ success: true });
   } catch (err) {
