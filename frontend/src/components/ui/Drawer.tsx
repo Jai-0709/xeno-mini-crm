@@ -43,7 +43,7 @@ export function Drawer({ open, onClose, title, width = 480, children }: DrawerPr
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            style={{ width }}
+            style={{ width: '100%', maxWidth: width }}
             className="fixed right-0 top-0 bottom-0 z-50 bg-bg-card border-l border-border flex flex-col overflow-hidden"
           >
             {/* Header */}

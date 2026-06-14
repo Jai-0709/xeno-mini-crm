@@ -75,10 +75,7 @@ export function SegmentList({ segments, selected, onSelect, onDelete, loading }:
               </div>
               <button
                 onClick={e => { e.stopPropagation(); onDelete(seg.id); }}
-                className="p-1.5 rounded-lg transition-colors flex-shrink-0"
-                style={{ color: '#3f3f46' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#3f3f46')}
+                className="p-1.5 rounded-lg transition-colors flex-shrink-0 text-red-500/80 hover:text-red-500"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>

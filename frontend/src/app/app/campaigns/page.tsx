@@ -54,6 +54,14 @@ export default function CampaignsPage() {
     }
   }
 
+  async function handleDelete(id: string) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/campaigns/${id}`, { method: 'DELETE' });
+    if (res.ok) {
+      addToast({ type: 'success', title: 'Campaign deleted' });
+      fetchCampaigns();
+    }
+  }
+
   const filtered = campaigns.filter(c => {
     if (tab === 'All') return true;
     if (tab === 'Active') return c.status === 'running';
@@ -122,7 +130,7 @@ export default function CampaignsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((c, i) => (
             <CampaignCard key={c.id} campaign={c} index={i}
-              onLaunch={handleLaunch} onMonitor={setMonitorId} />
+              onLaunch={handleLaunch} onMonitor={setMonitorId} onDelete={handleDelete} />
           ))}
         </div>
       )}

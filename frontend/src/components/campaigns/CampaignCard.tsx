@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { ChannelPill } from '@/components/ui/ChannelPill';
 import { StatusBadge } from '@/components/ui/StatusBadge';
-import { Users, BarChart2, Send, Eye } from 'lucide-react';
+import { Users, BarChart2, Send, Eye, Trash2 } from 'lucide-react';
 
 interface Campaign {
   id: string;
@@ -25,9 +25,10 @@ interface CampaignCardProps {
   index: number;
   onLaunch: (id: string) => void;
   onMonitor: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export function CampaignCard({ campaign: c, index, onLaunch, onMonitor }: CampaignCardProps) {
+export function CampaignCard({ campaign: c, index, onLaunch, onMonitor, onDelete }: CampaignCardProps) {
   const deliveryRate = c.totalRecipients > 0 ? Math.round((c.delivered / c.totalRecipients) * 100) : 0;
   const openRate = c.delivered > 0 ? Math.round((c.opened / c.delivered) * 100) : 0;
 
@@ -116,9 +117,12 @@ export function CampaignCard({ campaign: c, index, onLaunch, onMonitor }: Campai
             <BarChart2 className="w-3.5 h-3.5" /> Live Stats
           </button>
         )}
-        <span className="text-xs self-end ml-auto" style={{ color: '#3f3f46' }}>
-          {new Date(c.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-        </span>
+        <button
+          onClick={() => onDelete(c.id)}
+          className="p-2 rounded-lg transition-colors flex-shrink-0 text-red-500/80 hover:text-red-500 ml-auto"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
       </div>
     </motion.div>
   );
