@@ -52,8 +52,10 @@ export function Sidebar() {
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
         {navItems.map(({ href, label, icon: Icon, isAI, isExternal }) => {
           const active = !isExternal && (pathname === href || pathname.startsWith(href + '/'));
+          const Component = isExternal ? 'a' : Link;
+          
           return (
-            <Link
+            <Component
               key={href}
               href={href}
               onClick={() => setSidebarOpen(false)}
@@ -74,7 +76,7 @@ export function Sidebar() {
                   <span className="pulse-dot w-2 h-2 rounded-full bg-status-success" />
                 </span>
               )}
-            </Link>
+            </Component>
           );
         })}
       </nav>
