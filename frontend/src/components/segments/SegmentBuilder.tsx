@@ -135,7 +135,7 @@ export function SegmentBuilder({ onSaved }: SegmentBuilderProps) {
           </div>
 
           {/* Logic toggle */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <span className="text-sm" style={{ color: '#6b7280' }}>Match</span>
             {(['AND','OR'] as const).map(l => (
               <button
@@ -161,7 +161,7 @@ export function SegmentBuilder({ onSaved }: SegmentBuilderProps) {
               const isEnum = rule.field === 'tag' || rule.field === 'city';
               const enumVals = rule.field === 'tag' ? TAG_VALUES : CITY_VALUES;
               return (
-                <div key={i} className="flex items-center gap-2">
+                <div key={i} className="flex flex-wrap md:flex-nowrap items-center gap-2">
                   <select
                     value={rule.field}
                     onChange={e => updateRule(i, 'field', e.target.value)}
